@@ -1,11 +1,14 @@
 import express from "express";
-import { getRatingWiseSolved } from "../controllers/codeforces.controller.js";
+import {
+  getRatingWiseSolved,
+  getRatingChanges,
+  getHeatmapData,
+} from "../controllers/codeforces.controller.js";
 
 const router = express.Router();
 
-// router.get("/profile/:handle", getUserProfile);
-router.get("/solved/:handle", getRatingWiseSolved);
+router.route("/solvedPerRating/:handle").get(getRatingWiseSolved);
+router.route("/ratingChanges/:handle").get(getRatingChanges);
+router.route("/heatMap/:handle").get(getHeatmapData);
 
 export default router;
-
-// https://codeforces.com/api/user.info?handles=DmitriyH;Fefer_Ivan&checkHistoricHandles=false
