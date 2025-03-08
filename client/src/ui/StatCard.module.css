@@ -1,0 +1,110 @@
+.statCard {
+  position: relative;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: backdrop-filter 0.3s;
+}
+
+.statCard:hover .overlay {
+  backdrop-filter: blur(0);
+}
+
+[data-theme="dark"] .overlay {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+}
+
+.flexContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.iconContainer {
+  padding: 0.75rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] .iconContainer {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Color Variables */
+:root {
+  --stat-blue-from: #dbeafe;
+  --stat-blue-to: #bfdbfe;
+  --stat-purple-from: #f3e8ff;
+  --stat-purple-to: #e9d5ff;
+  --stat-pink-from: #fce7f3;
+  --stat-pink-to: #fbcfe8;
+  --stat-green-from: #dcfce7;
+  --stat-green-to: #bbf7d0;
+  --stat-yellow-from: #fef9c3;
+  --stat-yellow-to: #fef08a;
+}
+
+[data-theme="dark"] {
+  --stat-blue-from: rgba(30, 58, 138, 0.5);
+  --stat-blue-to: rgba(30, 64, 175, 0.5);
+  --stat-purple-from: rgba(76, 29, 149, 0.5);
+  --stat-purple-to: rgba(88, 28, 135, 0.5);
+  --stat-pink-from: rgba(157, 23, 77, 0.5);
+  --stat-pink-to: rgba(190, 24, 93, 0.5);
+  --stat-green-from: rgba(21, 128, 61, 0.5);
+  --stat-green-to: rgba(22, 163, 74, 0.5);
+  --stat-yellow-from: rgba(180, 83, 9, 0.5);
+  --stat-yellow-to: rgba(217, 119, 6, 0.5);
+}
+
+.blueGradient {
+  background: linear-gradient(
+    to bottom right,
+    var(--stat-blue-from),
+    var(--stat-blue-to)
+  );
+}
+
+.purpleGradient {
+  background: linear-gradient(
+    to bottom right,
+    var(--stat-purple-from),
+    var(--stat-purple-to)
+  );
+}
+
+.pinkGradient {
+  background: linear-gradient(
+    to bottom right,
+    var(--stat-pink-from),
+    var(--stat-pink-to)
+  );
+}
+
+.greenGradient {
+  background: linear-gradient(
+    to bottom right,
+    var(--stat-green-from),
+    var(--stat-green-to)
+  );
+}
+
+.yellowGradient {
+  background: linear-gradient(
+    to bottom right,
+    var(--stat-yellow-from),
+    var(--stat-yellow-to)
+  );
+}
