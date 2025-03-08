@@ -1,6 +1,7 @@
-import { mongo } from "mongoose";
+import mongoose from "mongoose"; // Correct import
 
-const account = new mongoose.Schema({
+// Account Schema
+const accountSchema = new mongoose.Schema({
   accountName: {
     type: String,
     required: true,
@@ -11,7 +12,8 @@ const account = new mongoose.Schema({
   },
 });
 
-const user = new mongoose.Schema({
+// User Schema
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -22,7 +24,12 @@ const user = new mongoose.Schema({
     required: true,
   },
   accounts: {
-    type: [account],
+    type: [accountSchema], // Embedding account schema correctly
     default: [],
   },
 });
+
+// Export the User model
+const User = mongoose.model("User", userSchema);
+
+export default User;

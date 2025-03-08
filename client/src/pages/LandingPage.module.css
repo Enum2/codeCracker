@@ -1,0 +1,146 @@
+/* Layout.module.css */
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f4f4;
+}
+
+/* Header */
+.header {
+  width: 100%;
+  height: 60px;
+  background-color: #d3d3d3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+}
+
+/* Content */
+.content {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #d3d3d3;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profilePic {
+  width: 100px;
+  height: 100px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.textBox {
+  width: 80%;
+  height: 30px;
+  background-color: #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.smallBox {
+  width: 80%;
+  height: 80px;
+  background-color: #e0e0e0;
+}
+
+/* Main content grid */
+.main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+
+.box {
+  height: 120px;
+  background-color: #d3d3d3;
+}
+
+.boxWide {
+  grid-column: span 2;
+  height: 120px;
+  background-color: #d3d3d3;
+}
+
+/* 📌 RESPONSIVE DESIGN */
+
+/* Tablets: Adjust grid & sidebar */
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .main {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .boxWide {
+    grid-column: span 1;
+  }
+}
+
+/* Mobile: Stack layout */
+@media (max-width: 768px) {
+  .header {
+    justify-content: center;
+  }
+
+  .circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+  }
+
+  .profilePic {
+    width: 80px;
+    height: 80px;
+  }
+
+  .textBox,
+  .smallBox {
+    width: 90%;
+  }
+
+  .main {
+    grid-template-columns: 1fr;
+  }
+
+  .box,
+  .boxWide {
+    height: 100px;
+  }
+}

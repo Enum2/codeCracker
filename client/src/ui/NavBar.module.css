@@ -1,0 +1,120 @@
+/* Navbar Container */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.navContainer {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo Section */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logoImg {
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+}
+
+.brandName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.navLinks {
+  display: flex;
+  gap: 15px;
+  margin-left: 30px;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: #555;
+  font-size: 1.5rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navLinks .active {
+  color: #ff6600;
+  border-bottom: 2px solid #ff6600;
+  padding-bottom: 3px;
+}
+
+.navLinks a:hover {
+  color: #ff6600;
+}
+
+.navIcons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Profile Image */
+.profileImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+  position: absolute;
+  right: 20px;
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 800px) {
+  .hamburger {
+    display: block;
+  }
+
+  .navLinks {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    width: 150px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+  .navLinks.showMenu {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .profileImg {
+    display: none;
+  }
+
+  .navLinks a {
+    padding: 10px;
+    text-align: left;
+    font-size: 1rem;
+    width: 100%;
+  }
+}

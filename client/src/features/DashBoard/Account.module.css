@@ -1,0 +1,10 @@
+.box {
+  height: 120px;
+  background-color: #d3d3d3;
+}
+
+.boxWide {
+  grid-column: span 2;
+  height: 120px;
+  background-color: #d3d3d3;
+}

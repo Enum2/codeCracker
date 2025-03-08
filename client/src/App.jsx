@@ -1,13 +1,20 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import GlobalStyles from "./styles/GlobalStyles";
+import PageNotFound from "./pages/PageNotFound";
+import LandingPage from "./pages/LandingPage";
+import Layout from "./pages/Layout";
+import Profile from "./pages/Profile";
+import Calender from "./pages/Calender";
+import SheetTracker from "./pages/SheetTracker";
+import AccountTracker from "./pages/AccountTracker";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 50,
+      staleTime: 60 * 50 * 60,
     },
   },
 });
@@ -15,10 +22,18 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
       <GlobalStyles />
       <BrowserRouter>
-        <Routes></Routes>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<LandingPage />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="calender" element={<Calender />} />
+            <Route path="codingStats" element={<AccountTracker />} />
+            <Route path="SheetTracker" element={<SheetTracker />} />
+          </Route>
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
       </BrowserRouter>
       <Toaster
         position="top-center"
@@ -39,6 +54,7 @@ function App() {
           },
         }}
       />
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

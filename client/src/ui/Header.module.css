@@ -1,0 +1,84 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 1px;
+  border: none;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 20px;
+  color: #f37d0a;
+  cursor: pointer;
+}
+
+.platformSelect {
+  padding: 8px;
+  border: 2px solid #f37d0a;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.platformSelect:focus {
+  border-color: #f37d0a;
+  box-shadow: 0 0 5px rgba(243, 125, 10, 0.7);
+  outline: none;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.themeToggle {
+  background: #e2e8f0;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.themeToggle svg {
+  font-size: 18px;
+  color: #1e293b;
+}
+
+.addPlatform {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(to right, #f37d0a, #ff9f1c);
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.addPlatform:hover {
+  opacity: 0.8;
+}
+
+.plusIcon {
+  font-size: 14px;
+}
