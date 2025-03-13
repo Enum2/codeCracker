@@ -1,12 +1,11 @@
 import React from "react";
 import styles from "./Header.module.css";
-import { FaBars, FaMoon, FaPlus } from "react-icons/fa6";
+import { FaBars, FaPlus } from "react-icons/fa6";
 
 function Header({ setSelectedPlatform, profile }) {
   function handlePlatformChange(event) {
     setSelectedPlatform(event.target.value);
   }
-  console.log(profile.accounts);
 
   return (
     <header className={styles.header}>
@@ -17,7 +16,7 @@ function Header({ setSelectedPlatform, profile }) {
           onChange={handlePlatformChange}
         >
           {profile.accounts.map((account) => (
-            <option key={account._id} value={account._id}>
+            <option key={account._id} value={account.accountName}>
               {account.accountName}
             </option>
           ))}

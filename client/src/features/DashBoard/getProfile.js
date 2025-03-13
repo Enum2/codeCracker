@@ -2,9 +2,7 @@ import toast from "react-hot-toast";
 
 export const getProfile = async (userName) => {
   try {
-    console.log("Fetching profile for:", userName);
-
-    const url = `http://localhost:5000/api/v1/profile/sujal`;
+    const url = `http://localhost:5000/api/v1/profile/${userName}`;
     const response = await fetch(url);
 
     if (!response.ok) {

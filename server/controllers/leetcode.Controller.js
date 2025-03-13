@@ -1,3 +1,46 @@
+import { LeetCode } from "leetcode-query";
+const leetcode = new LeetCode();
+
+export const getAllData = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) return res.status(400).json({ error: "User ID is required" });
+
+    const user = await leetcode.user(id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+    const convertedSubmissionCalendar = user.matchedUser?.submissionCalendar
+      ? Object.entries(JSON.parse(user.matchedUser.submissionCalendar)).map(
+          ([timestamp, value]) => {
+            const date = new Date(parseInt(timestamp) * 1000);
+            const formattedDate = date.toISOString().split("T")[0];
+            return {
+              date: formattedDate,
+              count: value,
+            };
+          }
+        )
+      : [];
+
+    console.log(convertedSubmissionCalendar.length);
+
+    const transformedData = {
+      username: user.matchedUser?.username || "",
+      submissionCalendar: convertedSubmissionCalendar,
+      ranking: user.matchedUser?.profile?.ranking || null,
+      acSubmissionNum: user.matchedUser?.submitStats?.acSubmissionNum || [],
+      badges: user.matchedUser?.badges || [],
+      activeBadge: user.matchedUser?.activeBadge || null,
+      activeDays: convertedSubmissionCalendar.length,
+    };
+
+    res.status(200).json(transformedData);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
+  }
+};
+
 export const getUserProfile = async (req, res) => {
   try {
     const { id } = req.params;
