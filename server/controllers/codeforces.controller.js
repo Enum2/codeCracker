@@ -1,3 +1,5 @@
+import { convertHeatmapToSubmissionCalendar } from "../utils/converter.js";
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Combined function to fetch all data
@@ -19,19 +21,38 @@ export const getAllData = async (req, res) => {
     const solvedByTags = await fetchSolvedByTags(handle);
     await sleep(2000); // Wait for 2 seconds
 
+    const userInfo = await fetchUserInfo(handle);
+    await sleep(2000); // Wait for 2 seconds
+
     // Fetch heatmap data
     const heatmapData = await fetchHeatmapData(handle);
 
     // Combine all data into one response object
     const allData = {
+      userInfo,
       ratingWiseSolved,
       ratingChanges,
       solvedByTags,
       heatmapData,
     };
 
+    const finalData = {
+      submissionCalendar: convertHeatmapToSubmissionCalendar(
+        allData.heatmapData
+      ),
+      solvedByTags: allData.solvedByTags,
+      ratingWiseSolved: allData.ratingWiseSolved,
+      userContestRanking: {
+        attendedContestsCount: allData?.ratingChanges?.length,
+        rating: allData.userInfo.rating,
+        globalRanking: allData?.userInfo.rank,
+        maxRating: allData?.userInfo.maxRating,
+      },
+      lineChartData: allData.ratingChanges,
+    };
+
     // Send all data as response
-    return res.status(200).json({ success: true, data: allData });
+    return res.status(200).json({ success: true, data: finalData });
   } catch (error) {
     console.error(`❌ Error fetching all data: ${error.message}`);
     return res.status(500).json({ success: false, message: error.message });
@@ -49,7 +70,7 @@ export const fetchRatingWiseSolved = async (handle) => {
 
   const solvedProblems = new Map();
   data.result.forEach(({ verdict, problem }) => {
-    if (verdict === "OK" && problem.rating) {
+    if (verdict === "OK" && problem && problem.rating) {
       const problemId = `${problem.contestId}-${problem.index}`;
       if (!solvedProblems.has(problem.rating))
         solvedProblems.set(problem.rating, new Set());
@@ -96,7 +117,7 @@ export const fetchSolvedByTags = async (handle) => {
   const uniqueSolvedProblems = new Set();
 
   data.result.forEach(({ verdict, problem }) => {
-    if (verdict === "OK") {
+    if (verdict === "OK" && problem && problem.tags) {
       const problemId = `${problem.contestId}-${problem.index}`;
       if (!uniqueSolvedProblems.has(problemId)) {
         uniqueSolvedProblems.add(problemId);
@@ -131,4 +152,14 @@ export const fetchHeatmapData = async (handle) => {
   });
 
   return Object.fromEntries(solvedByDate);
+};
+
+export const fetchUserInfo = async (handle) => {
+  const url = `https://codeforces.com/api/user.info?handles=${handle}`;
+  const response = await fetch(url);
+  const data = await response.json();
+  if (data.status !== "OK")
+    throw new Error(data.comment || "Unknown error from Codeforces API");
+
+  return data.result;
 };
