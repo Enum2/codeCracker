@@ -1,17 +1,17 @@
 import Box from "../../ui/Box";
+import Heatmap from "./Heatmap";
+import PieChart from "./PieChart";
 import styles from "./Account.module.css";
 import { getDateForHeatmap } from "./getDateForHeatmap";
-import Heatmap from "./Heatmap";
+import { formatPieChartData } from "../../utils/DashboardUtils";
+import RatingChart from "./ContestChart";
 
 function Account({ accountData }) {
-  console.log(accountData?.submissionCalendar);
   const { startDate, endDate } = getDateForHeatmap();
-  console.log(getDateForHeatmap());
   const sampleHeatmapData = accountData?.submissionCalendar;
   const totalSolved = accountData
     ? accountData.acSubmissionNum.find((level) => level.difficulty === "All")
     : { count: 0 };
-     
 
   return (
     <>
@@ -28,8 +28,8 @@ function Account({ accountData }) {
           dataValues={sampleHeatmapData}
         />
       )}
-      <div className={styles.box}></div>
-      <div className={styles.box}></div>
+      <RatingChart />
+      {accountData && <PieChart data={formatPieChartData(accountData)} />}
       <div className={styles.boxWide}></div>
       <div className={styles.box}></div>
     </>

@@ -1,14 +1,16 @@
 import express from "express";
 import {
-  getRatingWiseSolved,
-  getRatingChanges,
-  getHeatmapData,
+  fetchRatingWiseSolved,
+  fetchRatingChanges,
+  fetchHeatmapData,
+  getAllData,
 } from "../controllers/codeforces.controller.js";
 
 const router = express.Router();
 
-router.route("/solvedPerRating/:handle").get(getRatingWiseSolved);
-router.route("/ratingChanges/:handle").get(getRatingChanges);
-router.route("/heatMap/:handle").get(getHeatmapData);
+router.route("/allData/:handle").get(getAllData);
+router.route("/solvedPerRating/:handle").get(fetchRatingWiseSolved);
+router.route("/ratingChanges/:handle").get(fetchRatingChanges);
+router.route("/heatMap/:handle").get(fetchHeatmapData);
 
 export default router;

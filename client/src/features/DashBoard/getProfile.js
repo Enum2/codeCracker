@@ -10,8 +10,9 @@ export const getProfile = async (userName) => {
       toast.error("Failed to fetch profile");
       throw new Error(errorMessage || "Failed to fetch profile info");
     }
-
-    return await response.json();
+    const data = await response.json();
+    console.log(data);
+    return data;
   } catch (error) {
     toast.error(error.message);
     console.error("Error fetching profile:", error);

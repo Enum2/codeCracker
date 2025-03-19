@@ -3,10 +3,12 @@ import styles from "./AccountTracker.module.css";
 import Header from "../ui/Header";
 import Account from "../features/DashBoard/Account";
 import Sidebar from "../features/DashBoard/SideBar";
+import Loader from "../ui/Loader"; // Import Loader component
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../features/DashBoard/getProfile.js";
 import toast from "react-hot-toast";
 import { getAccountInfo } from "../features/DashBoard/getAccountInfo.js";
+import { getContestInfo } from "../features/DashBoard/getContestInfo.js";
 
 function AccountTracker() {
   const [selectedPlatform, setSelectedPlatform] = useState("Leetcode");
@@ -29,7 +31,6 @@ function AccountTracker() {
   const accountUsername = account
     ? account.accountUsername.toLowerCase()
     : null;
-  // console.log(accountUsername);
 
   const {
     isLoading: isGetting,
@@ -41,9 +42,20 @@ function AccountTracker() {
       getAccountInfo(selectedPlatform.toLowerCase(), accountUsername),
     enabled: !!accountUsername,
   });
-  console.log(accountData);
+  const {
+    isLoading: isGettingContestInfo,
+    error: contestError,
+    data: contestData,
+  } = useQuery({
+    queryKey: ["contest", selectedPlatform, accountUsername],
+    queryFn: () =>
+      getContestInfo(selectedPlatform.toLowerCase(), accountUsername),
+    enabled: !!accountUsername,
+  });
 
-  if (isLoading) return <p className={styles.loading}>Loading profile...</p>;
+  // console.log(contestData);
+
+  if (isLoading) return <Loader />;
 
   if (error) {
     toast.error("Failed to load profile!");
@@ -54,10 +66,14 @@ function AccountTracker() {
     <div className={styles.container}>
       <Header setSelectedPlatform={setSelectedPlatform} profile={profile} />
       <div className={styles.content}>
-        <Sidebar profile={profile} />
-        <main className={styles.main}>
-          <Account accountData={accountData} />
-        </main>
+        {isGetting ? (
+          <Loader />
+        ) : (
+          <>
+            <Sidebar profile={profile} />
+            <main className={styles.main}></main>
+          </>
+        )}
       </div>
     </div>
   );

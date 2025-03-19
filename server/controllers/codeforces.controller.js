@@ -1,143 +1,134 @@
-export const getRatingWiseSolved = async (req, res) => {
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Combined function to fetch all data
+export const getAllData = async (req, res) => {
   const { handle } = req.params;
-  const url = `https://codeforces.com/api/user.status?handle=${handle}`;
 
   try {
-    console.log(`Fetching solved problems for user: ${handle}...`);
+    console.log(`Fetching all data for user: ${handle}...`);
 
-    const response = await fetch(url);
-    const data = await response.json();
-    if (data.status !== "OK")
-      throw new Error(data.comment || "Unknown error from Codeforces API");
+    // Fetch solved problems by rating
+    const ratingWiseSolved = await fetchRatingWiseSolved(handle);
+    await sleep(2000); // Wait for 2 seconds
 
-    const solvedProblems = new Map();
+    // Fetch rating changes
+    const ratingChanges = await fetchRatingChanges(handle);
+    await sleep(2000); // Wait for 2 seconds
 
-    data.result.forEach(({ verdict, problem }) => {
-      if (verdict === "OK" && problem.rating) {
-        const problemId = `${problem.contestId}-${problem.index}`;
-        if (!solvedProblems.has(problem.rating))
-          solvedProblems.set(problem.rating, new Set());
-        solvedProblems.get(problem.rating).add(problemId);
-      }
-    });
+    // Fetch solved problems by tags
+    const solvedByTags = await fetchSolvedByTags(handle);
+    await sleep(2000); // Wait for 2 seconds
 
-    const ratingWiseCount = Object.fromEntries(
-      [...solvedProblems.entries()].map(([rating, problems]) => [
-        rating,
-        problems.size,
-      ])
-    );
-    return res.status(200).json({ success: true, data: ratingWiseCount });
+    // Fetch heatmap data
+    const heatmapData = await fetchHeatmapData(handle);
+
+    // Combine all data into one response object
+    const allData = {
+      ratingWiseSolved,
+      ratingChanges,
+      solvedByTags,
+      heatmapData,
+    };
+
+    // Send all data as response
+    return res.status(200).json({ success: true, data: allData });
   } catch (error) {
-    console.error(`❌ Error fetching data: ${error.message}`);
+    console.error(`❌ Error fetching all data: ${error.message}`);
     return res.status(500).json({ success: false, message: error.message });
   }
 };
 
-export const getRatingChanges = async (req, res) => {
-  const { handle } = req.params;
+// Function to fetch solved problems by rating
+export const fetchRatingWiseSolved = async (handle) => {
+  const url = `https://codeforces.com/api/user.status?handle=${handle}`;
+  const response = await fetch(url);
+  const data = await response.json();
+
+  if (data.status !== "OK")
+    throw new Error(data.comment || "Unknown error from Codeforces API");
+
+  const solvedProblems = new Map();
+  data.result.forEach(({ verdict, problem }) => {
+    if (verdict === "OK" && problem.rating) {
+      const problemId = `${problem.contestId}-${problem.index}`;
+      if (!solvedProblems.has(problem.rating))
+        solvedProblems.set(problem.rating, new Set());
+      solvedProblems.get(problem.rating).add(problemId);
+    }
+  });
+
+  return Object.fromEntries(
+    [...solvedProblems.entries()].map(([rating, problems]) => [
+      rating,
+      problems.size,
+    ])
+  );
+};
+
+// Function to fetch rating changes
+export const fetchRatingChanges = async (handle) => {
   const url = `https://codeforces.com/api/user.rating?handle=${handle}`;
+  const response = await fetch(url);
+  const data = await response.json();
 
-  try {
-    console.log(`Fetching rating changes for user: ${handle}...`);
-    const response = await fetch(url);
-    const data = await response.json();
+  if (data.status !== "OK")
+    throw new Error(data.comment || "Unknown error from Codeforces API");
 
-    if (data.status !== "OK") {
-      return res
-        .status(400)
-        .json({ error: data.comment || "Unknown error from Codeforces API" });
-    }
-
-    const ratingChanges = data.result.map((change) => ({
-      contest: change.contestName,
-      rank: change.rank,
-      oldRating: change.oldRating,
-      newRating: change.newRating,
-      ratingChange: change.newRating - change.oldRating,
-    }));
-
-    return res.status(200).json(ratingChanges);
-  } catch (error) {
-    console.error(`❌ Error fetching data: ${error.message}`);
-    return res.status(500).json({ error: "Internal server error" });
-  }
+  return data.result.map((change) => ({
+    contest: change.contestName,
+    rank: change.rank,
+    oldRating: change.oldRating,
+    newRating: change.newRating,
+    ratingChange: change.newRating - change.oldRating,
+  }));
 };
 
-export const getSolvedByTags = async (req, res) => {
-  const { handle } = req.params;
+// Function to fetch solved problems by tags
+export const fetchSolvedByTags = async (handle) => {
   const url = `https://codeforces.com/api/user.status?handle=${handle}`;
+  const response = await fetch(url);
+  const data = await response.json();
 
-  try {
-    console.log(`Fetching solved problems by tags for user: ${handle}...`);
+  if (data.status !== "OK")
+    throw new Error(data.comment || "Unknown error from Codeforces API");
 
-    const response = await fetch(url);
-    const data = await response.json();
+  const solvedByTags = new Map();
+  const uniqueSolvedProblems = new Set();
 
-    if (data.status !== "OK") {
-      return res
-        .status(400)
-        .json({ error: data.comment || "Unknown error from Codeforces API" });
-    }
+  data.result.forEach(({ verdict, problem }) => {
+    if (verdict === "OK") {
+      const problemId = `${problem.contestId}-${problem.index}`;
+      if (!uniqueSolvedProblems.has(problemId)) {
+        uniqueSolvedProblems.add(problemId);
 
-    const solvedByTags = new Map();
-    const uniqueSolvedProblems = new Set();
-
-    data.result.forEach(({ verdict, problem }) => {
-      if (verdict === "OK") {
-        const problemId = `${problem.contestId}-${problem.index}`;
-        if (!uniqueSolvedProblems.has(problemId)) {
-          uniqueSolvedProblems.add(problemId);
-
-          problem.tags.forEach((tag) => {
-            solvedByTags.set(tag, (solvedByTags.get(tag) || 0) + 1);
-          });
-        }
+        problem.tags.forEach((tag) => {
+          solvedByTags.set(tag, (solvedByTags.get(tag) || 0) + 1);
+        });
       }
-    });
+    }
+  });
 
-    const solvedTagsCount = Object.fromEntries(solvedByTags);
-    return res.status(200).json(solvedTagsCount);
-  } catch (error) {
-    console.error(`Error fetching data: ${error.message}`);
-    return res.status(500).json({ error: "Internal server error" });
-  }
+  return Object.fromEntries(solvedByTags);
 };
 
-export const getHeatmapData = async (req, res) => {
-  const { handle } = req.params;
+// Function to fetch heatmap data (solved problems by date)
+export const fetchHeatmapData = async (handle) => {
   const url = `https://codeforces.com/api/user.status?handle=${handle}`;
+  const response = await fetch(url);
+  const data = await response.json();
 
-  try {
-    console.log(`Fetching heatmap data for user: ${handle}...`);
+  if (data.status !== "OK")
+    throw new Error(data.comment || "Failed to fetch submissions");
 
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (data.status !== "OK") {
-      return res
-        .status(400)
-        .json({ error: data.comment || "Failed to fetch submissions" });
+  const solvedByDate = new Map();
+  data.result.forEach(({ verdict, creationTimeSeconds }) => {
+    if (verdict === "OK") {
+      const date = new Date(creationTimeSeconds * 1000)
+        .toISOString()
+        .split("T")[0];
+      solvedByDate.set(date, (solvedByDate.get(date) || 0) + 1);
     }
+  });
 
-    const solvedByDate = new Map();
-
-    data.result.forEach(({ verdict, creationTimeSeconds }) => {
-      if (verdict === "OK") {
-        const date = new Date(creationTimeSeconds * 1000)
-          .toISOString()
-          .split("T")[0];
-
-        solvedByDate.set(date, (solvedByDate.get(date) || 0) + 1);
-      }
-    });
-
-    const heatmapData = Object.fromEntries(solvedByDate);
-
-    console.log("✔️ Heatmap data fetched successfully");
-    return res.status(200).json(heatmapData);
-  } catch (error) {
-    console.error(`❌ Error fetching data: ${error.message}`);
-    return res.status(500).json({ error: "Internal server error" });
-  }
+  return Object.fromEntries(solvedByDate);
 };

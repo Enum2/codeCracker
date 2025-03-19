@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@nivo/calendar": "^0.88.0",
+    "@nivo/pie": "^0.88.0",
     "@tailwindcss/vite": "^4.0.11",
     "@tanstack/react-query": "^5.67.1",
     "@tanstack/react-query-devtools": "^5.67.1",
@@ -24,6 +25,7 @@
     "react-hot-toast": "^2.5.1",
     "react-icons": "^5.5.0",
     "react-router-dom": "^6.28.1",
+    "recharts": "^2.15.1",
     "styled-components": "^6.1.14",
     "tailwindcss": "^4.0.11",
     "three": "^0.167.1"

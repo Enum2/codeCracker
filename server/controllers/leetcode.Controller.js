@@ -81,11 +81,23 @@ export const getUserContestRankingInfo = async (req, res) => {
     }
 
     let data = await response.json();
-    data = data.data?.userContestRanking
-      ? { contestRanking: data.data.userContestRanking }
-      : { error: "No contest ranking data available" };
 
-    res.json(data);
+    //data transfrom into desired format
+    const userContestRanking = data.data.userContestRanking;
+    const lineChartData = data.data.userContestRankingHistory
+      .filter((contest) => contest.attended)
+      .map((contest) => ({
+        contestName: contest.contest.title,
+        rating: contest.rating,
+        date: contest.contest.startTime,
+      }));
+
+    const transformedData = {
+      userContestRanking,
+      lineChartData,
+    };
+
+    res.json(transformedData);
   } catch (error) {
     console.error("Error fetching data:", error);
     res.status(500).json({ error: "Internal Server Error" });
