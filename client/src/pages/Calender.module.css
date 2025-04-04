@@ -1,0 +1,14 @@
+.dashboard {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+}
+
+.upcomingContainer {
+  flex: 1;
+}
+
+.calendarContainer {
+  flex: 3;
+}

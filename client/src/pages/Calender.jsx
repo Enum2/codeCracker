@@ -1,5 +1,7 @@
+import ContestCalendar from "../features/calender/ContestCalendar";
+
 function Calender() {
-  return <div></div>;
+  return <ContestCalendar />;
 }
 
 export default Calender;

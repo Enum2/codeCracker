@@ -1,17 +1,37 @@
 .pie {
-  height: 400px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
+  grid-column: span 2;
+  padding: 20px;
+  gap: 20px;
+  /* overflow: scroll; */
+}
+.legendContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 200px;
+  max-height: 350px;
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+.pieChart {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* Responsive: Stack chart and legend on smaller screens */
 @media screen and (max-width: 1024px) {
   .pie {
-    grid-column: span 2;
+    flex-direction: column;
+    align-items: center;
   }
 }

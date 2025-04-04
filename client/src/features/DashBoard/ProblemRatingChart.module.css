@@ -1,7 +1,6 @@
-.line {
-  height: 430px;
+.box {
   grid-column: span 2;
-  display: flex;
+  height: auto;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -11,8 +10,8 @@
   border: 1px solid #ddd;
 }
 
-@media screen and (max-width: 1024px) {
-  .line {
-    grid-column: span 2;
-  }
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1rem;
 }

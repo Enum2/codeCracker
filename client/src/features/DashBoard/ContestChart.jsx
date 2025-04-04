@@ -48,7 +48,6 @@ const CustomTooltip = ({ active, payload }) => {
         <p>
           <strong>{data.contestName}</strong>
         </p>
-        <p>Date: {new Date(data.date * 1000).toLocaleDateString()}</p>
         <p>
           Rating: <strong>{data.rating.toFixed(2)}</strong>
         </p>
@@ -58,15 +57,15 @@ const CustomTooltip = ({ active, payload }) => {
   return null;
 };
 
-const RatingChart = () => {
+const RatingChart = ({ lineChartData, userContestRanking }) => {
   const {
     attendedContestsCount,
     rating,
     globalRanking,
     totalParticipants,
     topPercentage,
-  } = sampleData.userContestRanking;
-  const maxRating = Math.max(...sampleData.lineChartData.map((c) => c.rating));
+  } = userContestRanking;
+  const maxRating = Math.max(lineChartData.map((c) => c.rating));
   return (
     <div className={styles.line}>
       <div
@@ -89,7 +88,7 @@ const RatingChart = () => {
         </div>
         <div>
           🌎 <strong>Global Rank:</strong> {globalRanking.toLocaleString()} /{" "}
-          {totalParticipants.toLocaleString()}
+          {totalParticipants?.toLocaleString()}
         </div>
         <div>
           🎯 <strong>Top Percentage:</strong> {topPercentage}%
@@ -97,7 +96,7 @@ const RatingChart = () => {
       </div>
       <ResponsiveContainer width="100%" height={370}>
         <LineChart
-          data={sampleData.lineChartData}
+          data={lineChartData}
           margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
         >
           <CartesianGrid strokeDasharray="3 3" />

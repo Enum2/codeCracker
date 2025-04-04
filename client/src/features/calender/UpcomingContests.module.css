@@ -1,0 +1,30 @@
+.upcomingContests {
+  width: 25%;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.contestCard {
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #f9f9f9;
+  border-radius: 5px;
+}
+
+.contestTitle {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.contestDate {
+  color: #666;
+  font-size: 14px;
+}
+
+.calendarLink {
+  display: inline-block;
+  margin-top: 5px;
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}

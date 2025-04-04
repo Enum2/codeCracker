@@ -11,7 +11,7 @@ import { getAccountInfo } from "../features/DashBoard/getAccountInfo.js";
 import { getContestInfo } from "../features/DashBoard/getContestInfo.js";
 
 function AccountTracker() {
-  const [selectedPlatform, setSelectedPlatform] = useState("Leetcode");
+  const [selectedPlatform, setSelectedPlatform] = useState("Codeforces");
   const userName = "sujal1";
 
   const {
@@ -42,6 +42,7 @@ function AccountTracker() {
       getAccountInfo(selectedPlatform.toLowerCase(), accountUsername),
     enabled: !!accountUsername,
   });
+
   const {
     isLoading: isGettingContestInfo,
     error: contestError,
@@ -53,7 +54,7 @@ function AccountTracker() {
     enabled: !!accountUsername,
   });
 
-  // console.log(contestData);
+  console.log(`${selectedPlatform}`, accountData);
 
   if (isLoading) return <Loader />;
 
@@ -71,7 +72,12 @@ function AccountTracker() {
         ) : (
           <>
             <Sidebar profile={profile} />
-            <main className={styles.main}></main>
+            <main className={styles.main}>
+              <Account
+                accountData={accountData}
+                selectedPlatform={selectedPlatform}
+              />
+            </main>
           </>
         )}
       </div>

@@ -4,13 +4,12 @@ import styles from "./Heatmap.module.css";
 import {
   getCalendarGrid,
   getColorFromCount,
-  getMonthLabels,
 } from "../../utils/DashboardUtils.js";
 
 const Heatmap = ({ startDate, endDate, dataValues }) => {
   const scrollContainerRef = useRef(null);
   const calendarGrid = getCalendarGrid(startDate, endDate);
-  const monthLabels = getMonthLabels(calendarGrid);
+  // const monthLabels = getMonthLabels(calendarGrid);
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   useEffect(() => {
@@ -28,17 +27,7 @@ const Heatmap = ({ startDate, endDate, dataValues }) => {
           display: "grid",
           gridTemplateColumns: `repeat(${calendarGrid.length}, 1fr)`,
         }}
-      >
-        {monthLabels.map(({ month, index, span }) => (
-          <div
-            key={`${month}-${index}`}
-            className={styles.monthLabel}
-            style={{ gridColumn: `${index + 1} / span ${span}` }}
-          >
-            <b>{month}</b>
-          </div>
-        ))}
-      </div>
+      ></div>
 
       <div className={styles.heatmapContent}>
         <div className={styles.weekLabels}>
@@ -66,7 +55,7 @@ const Heatmap = ({ startDate, endDate, dataValues }) => {
                 className={styles.day}
                 title={
                   isInOriginalRange
-                    ? `${activityCount} Posts on ${dateString}`
+                    ? `${activityCount} solved on ${dateString}`
                     : undefined
                 }
                 style={{ backgroundColor: color }}

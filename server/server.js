@@ -7,6 +7,7 @@ import codeforcesRouter from "./routes/codeforces.route.js";
 import codechefRouter from "./routes/codechef.route.js";
 import gfgRouter from "./routes/gfg.route.js";
 import profileRouter from "./routes/profile.route.js";
+import contestRouter from "./routes/contest.route.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -30,6 +31,7 @@ app.use("/api/v1/leetcode", leetCodeRouter);
 app.use("/api/v1/codeforces", codeforcesRouter);
 app.use("/api/v1/codechef", codechefRouter);
 app.use("/api/v1/gfg", gfgRouter);
+app.use("/api/v1/contest", contestRouter);
 
 const startServer = async () => {
   try {

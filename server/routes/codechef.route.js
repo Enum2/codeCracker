@@ -3,6 +3,6 @@ import { getCodeChefProfile } from "../controllers/codechef.controller.js";
 
 const router = express.Router();
 
-router.route("/profileinfo/:handle").get(getCodeChefProfile);
+router.route("/allData/:handle").get(getCodeChefProfile);
 
 export default router;

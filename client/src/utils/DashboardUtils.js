@@ -5,6 +5,7 @@ export const formatPieChartData = (data) => {
     Hard: "hsl(0, 70%, 50%)",
   };
 
+  
   return data.acSubmissionNum
     .filter((item) => item.difficulty !== "All")
     .map((item) => ({
@@ -82,4 +83,31 @@ export const getMonthLabels = (calendarGrid) => {
   }
 
   return monthLabels;
+};
+
+export const tagColors = {
+  greedy: "#FF6B6B",
+  math: "#4ECDC4",
+  implementation: "#45B7D1",
+  "brute force": "#FFA07A",
+  "constructive algorithms": "#98D8C8",
+  sortings: "#F06292",
+  "binary search": "#7986CB",
+  dp: "#64B5F6",
+  strings: "#BA68C8",
+  "number theory": "#4DB6AC",
+  "data structures": "#9575CD",
+  "two pointers": "#4FC3F7",
+  bitmasks: "#81C784",
+  games: "#FF8A65",
+  geometry: "#A1887F",
+  combinatorics: "#90A4AE",
+  "dfs and similar": "#E57373",
+  "divide and conquer": "#FFD54F",
+  dsu: "#AED581",
+  trees: "#81D4FA",
+  interactive: "#CE93D8",
+  matrices: "#A5D6A7",
+  "shortest paths": "#FFF176",
+  "ternary search": "#B39DDB",
 };

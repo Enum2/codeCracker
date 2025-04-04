@@ -1,0 +1,32 @@
+.calendarContainer {
+  width: 70%;
+  margin: auto;
+}
+
+.fc-event {
+  background-color: #f35901 !important;
+  color: white !important;
+  border: none !important;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.fc-event:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* Multi-day event styling */
+.fc-daygrid-event {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  background: linear-gradient(90deg, #4caf50, #81c784);
+}
+
+.eventContent {
+  margin-top: 5px;
+  font-size: 12px;
+}

@@ -1,4 +1,5 @@
 import { LeetCode } from "leetcode-query";
+import { formatPieChartDataLeetCode } from "../utils/filterData.js";
 const leetcode = new LeetCode();
 
 export const getAllData = async (req, res) => {
@@ -21,13 +22,16 @@ export const getAllData = async (req, res) => {
         )
       : [];
 
-    console.log(convertedSubmissionCalendar.length);
+    // console.log(convertedSubmissionCalendar.length);
+    const covertedPieData = formatPieChartDataLeetCode(
+      user.matchedUser?.submitStats?.acSubmissionNum
+    );
 
     const transformedData = {
       username: user.matchedUser?.username || "",
       submissionCalendar: convertedSubmissionCalendar,
       ranking: user.matchedUser?.profile?.ranking || null,
-      acSubmissionNum: user.matchedUser?.submitStats?.acSubmissionNum || [],
+      piechartData: covertedPieData || [],
       badges: user.matchedUser?.badges || [],
       activeBadge: user.matchedUser?.activeBadge || null,
       activeDays: convertedSubmissionCalendar.length,

@@ -1,4 +1,9 @@
 import { convertHeatmapToSubmissionCalendar } from "../utils/converter.js";
+import {
+  formatPieChartDataCodeforces,
+  transformDataSolvedPie,
+} from "../utils/filterData.js";
+import { getAllSolved } from "../utils/getAllSolved.js";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -7,25 +12,25 @@ export const getAllData = async (req, res) => {
   const { handle } = req.params;
 
   try {
-    console.log(`Fetching all data for user: ${handle}...`);
-
+    let date = Date.now();
     // Fetch solved problems by rating
     const ratingWiseSolved = await fetchRatingWiseSolved(handle);
-    await sleep(2000); // Wait for 2 seconds
+    await sleep(2);
 
     // Fetch rating changes
     const ratingChanges = await fetchRatingChanges(handle);
-    await sleep(2000); // Wait for 2 seconds
+    await sleep(2);
 
     // Fetch solved problems by tags
     const solvedByTags = await fetchSolvedByTags(handle);
-    await sleep(2000); // Wait for 2 seconds
+    await sleep(2);
 
     const userInfo = await fetchUserInfo(handle);
-    await sleep(2000); // Wait for 2 seconds
+    await sleep(2);
 
     // Fetch heatmap data
     const heatmapData = await fetchHeatmapData(handle);
+    console.log(Date.now() - date);
 
     // Combine all data into one response object
     const allData = {
@@ -36,25 +41,37 @@ export const getAllData = async (req, res) => {
       heatmapData,
     };
 
+    const lineChartData = allData.ratingChanges.map((change) => ({
+      contestName: change.contest,
+      rating: change.newRating,
+      date: change.ratingChange,
+    }));
+    const solvedByTagsPie = transformDataSolvedPie(allData.solvedByTags);
+    // console.log(solvedByTagsPie);
     const finalData = {
       submissionCalendar: convertHeatmapToSubmissionCalendar(
         allData.heatmapData
       ),
       solvedByTags: allData.solvedByTags,
+      solvedByTagsPie,
       ratingWiseSolved: allData.ratingWiseSolved,
+      piechartData: formatPieChartDataCodeforces(allData.ratingWiseSolved),
       userContestRanking: {
         attendedContestsCount: allData?.ratingChanges?.length,
-        rating: allData.userInfo.rating,
-        globalRanking: allData?.userInfo.rank,
-        maxRating: allData?.userInfo.maxRating,
+        rating: allData.userInfo[0].rating,
+        globalRanking: allData?.userInfo[0].rank,
+        maxRating: allData?.userInfo[0].maxRating,
       },
-      lineChartData: allData.ratingChanges,
+      lineChartData: lineChartData,
+      acSubmissionNum: [
+        { difficulty: "All", count: getAllSolved(allData.ratingWiseSolved) },
+      ],
     };
 
     // Send all data as response
-    return res.status(200).json({ success: true, data: finalData });
+    return res.status(200).json({ success: true, ...finalData });
   } catch (error) {
-    console.error(`❌ Error fetching all data: ${error.message}`);
+    console.error(` Error fetching all data: ${error.message}`);
     return res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -160,6 +177,5 @@ export const fetchUserInfo = async (handle) => {
   const data = await response.json();
   if (data.status !== "OK")
     throw new Error(data.comment || "Unknown error from Codeforces API");
-
   return data.result;
 };

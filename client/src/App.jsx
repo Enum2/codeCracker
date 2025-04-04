@@ -14,7 +14,7 @@ import AccountTracker from "./pages/AccountTracker";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 50 * 60,
+      staleTime: 60 * 50 * 60 * 60,
     },
   },
 });
