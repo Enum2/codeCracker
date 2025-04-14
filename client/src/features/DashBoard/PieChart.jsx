@@ -8,7 +8,7 @@ const PieChart = ({ data }) => {
       <div className={styles.pieChart}>
         <ResponsivePie
           data={data}
-          margin={{ top: 40, right: 10, bottom: 80, left: 30 }} // Adjust margins
+          margin={{ top: 40, right: 10, bottom: 80, left: 30 }}
           innerRadius={0.5}
           padAngle={1}
           cornerRadius={5}

@@ -24,7 +24,7 @@ const Sidebar = ({ profile }) => {
       <div className={styles.statsSection}>
         <h3 className={styles.statsHeader}>Problem Solving Stats</h3>
         <ul className={styles.platformList}>
-          {profile.accounts.map((account) => {
+          {profile?.accounts.map((account) => {
             const platformLogo = platformLogos[account.accountName];
 
             return (

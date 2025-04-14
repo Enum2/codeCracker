@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  bio: {
+    type: String,
+    default: "",
+  },
   accounts: {
     type: [accountSchema],
     default: [],

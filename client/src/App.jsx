@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import Calender from "./pages/Calender";
 import SheetTracker from "./pages/SheetTracker";
 import AccountTracker from "./pages/AccountTracker";
+import ProfileSection from "./features/profile/ProfileSection";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,7 +28,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<LandingPage />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="profile" element={<ProfileSection />} />
             <Route path="calender" element={<Calender />} />
             <Route path="codingStats" element={<AccountTracker />} />
             <Route path="SheetTracker" element={<SheetTracker />} />

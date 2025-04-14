@@ -15,7 +15,7 @@ function Header({ setSelectedPlatform, profile }) {
           className={styles.platformSelect}
           onChange={handlePlatformChange}
         >
-          {profile.accounts.map((account) => (
+          {profile?.accounts.map((account) => (
             <option key={account._id} value={account.accountName}>
               {account.accountName}
             </option>
