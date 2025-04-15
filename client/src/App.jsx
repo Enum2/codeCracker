@@ -11,6 +11,7 @@ import Calender from "./pages/Calender";
 import SheetTracker from "./pages/SheetTracker";
 import AccountTracker from "./pages/AccountTracker";
 import ProfileSection from "./features/profile/ProfileSection";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,6 +33,7 @@ function App() {
             <Route path="calender" element={<Calender />} />
             <Route path="codingStats" element={<AccountTracker />} />
             <Route path="SheetTracker" element={<SheetTracker />} />
+            <Route path="/login" element={<Login />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>

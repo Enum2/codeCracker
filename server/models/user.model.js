@@ -31,19 +31,19 @@ const userSchema = new mongoose.Schema({
   },
   country: {
     type: String,
-    required: true,
+    default: "",
   },
   college: {
     type: String,
-    required: true,
+    default: "",
   },
   branch: {
     type: String,
-    required: true,
+    default: "",
   },
   yearofGraduation: {
     type: Number,
-    required: true,
+    default: "",
   },
   bio: {
     type: String,

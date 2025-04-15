@@ -30,31 +30,36 @@ export const getProfileInfo = async (req, res) => {
 
 export const postNewUser = async (req, res) => {
   try {
-    const { username, password, accounts } = req.body;
-
-    if (!username || !password)
+    const { username, password, accounts, email } = req.body;
+    console.log(req.body);
+    if (!username || !password || !email)
       return res
         .status(400)
-        .json({ error: "Username and password are required" });
+        .json({ error: "Username , password and email are required" });
 
     const existingUser = await User.findOne({ username });
     if (existingUser)
       return res.status(400).json({ error: "Username already exists" });
-
+    console.log("here1");
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       username,
       password: hashedPassword,
       accounts: accounts || [],
+      email,
     });
 
     await newUser.save();
+    console.log("here1");
+    const user = await User.findOne({ username });
 
     const token = jwt.sign({ username, id: newUser._id }, SECRET_KEY, {
       expiresIn: "1h",
     });
 
-    res.status(201).json({ message: "User created successfully", token });
+    res
+      .status(201)
+      .json({ message: "User created successfully", token, username });
   } catch (error) {
     console.error("Error creating new user:", error.message);
     res.status(500).json({ error: "Internal Server Error" });

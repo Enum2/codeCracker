@@ -21,15 +21,16 @@ const Navbar = () => {
         <div
           className={`${styles.navLinks} ${menuOpen ? styles.showMenu : ""}`}
         >
-          <NavLink to="/profile" activeClassName={styles.active}>
-            Profile
-          </NavLink>
+          <NavLink to="/profile">Profile</NavLink>
           <NavLink to="/calender">calender</NavLink>
           <NavLink to="/">Home</NavLink>
           <NavLink to="/codingStats">codingStats</NavLink>
         </div>
       </div>
       <div className={styles.navIcons}>
+        <div className={styles.login}>
+          <NavLink to="/login">Login / Signup</NavLink>
+        </div>
         <div
           className={styles.hamburger}
           onClick={() => setMenuOpen(!menuOpen)}

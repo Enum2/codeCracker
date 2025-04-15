@@ -107,6 +107,13 @@
     opacity: 1;
     transform: translateY(0);
   }
+  .login {
+    font-size: 1.5rem;
+    margin-left: 10px;
+    color: #333;
+    position: absolute;
+    right: 50px;
+  }
   .profileImg {
     display: none;
   }
