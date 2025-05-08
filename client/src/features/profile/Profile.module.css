@@ -96,7 +96,7 @@
 
 .input:focus {
   outline: none;
-  border-color: #4f46e5;
+  border-color: #F35901;
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
@@ -122,7 +122,7 @@
 
 .select:focus {
   outline: none;
-  border-color: #4f46e5;
+  border-color: #F35901;
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
@@ -144,12 +144,15 @@
 }
 
 .editButton {
-  background-color: #4f46e5;
+  background-color: #F35901;
   color: white;
+}
+.button:focus{
+  border-color: none;
 }
 
 .editButton:hover {
-  background-color: #4338ca;
+  background-color: #F35901;
 }
 
 .cancelButton {
@@ -164,7 +167,7 @@
 
 .saveButton {
   padding: 0.75rem 1.5rem;
-  background-color: #4f46e5;
+  background-color: #F35901;
   color: white;
   border-radius: 6px;
   font-weight: 500;
@@ -175,7 +178,7 @@
 }
 
 .saveButton:hover {
-  background-color: #4338ca;
+  background-color: #F35901;
 }
 
 .buttonContainer {
@@ -187,12 +190,12 @@
 }
 
 .platformsButton {
-  background-color: #4f46e5;
+  background-color:#F35901;
   color: white;
 }
 
 .platformsButton:hover {
-  background-color: #4338ca;
+  background-color:#F35901;
 }
 
 /* Modal Styles */
@@ -280,7 +283,7 @@
 }
 
 .platformLink {
-  color: #4f46e5;
+  color:#F35901;
   text-decoration: none;
   word-break: break-all;
   display: inline-block;

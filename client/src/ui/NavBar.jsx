@@ -3,7 +3,7 @@ import styles from "./Navbar.module.css";
 import { FaBars, FaTimes } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import profile from "../assets/profile.jpg";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/authStore";
 import LogoutButton from "./LogoutButton";
@@ -22,18 +22,20 @@ const Navbar = () => {
     <nav className={styles.navbar}>
       <div className={styles.navContainer}>
         <div className={styles.logo}>
+        <Link to="/">
           <img src={logo} alt="Logo" className={styles.logoImg} />
+          </Link>
           <span className={styles.brandName}>
-            <NavLink to={"/profile"}>Codessy</NavLink>
+            <NavLink to={"/"}>Codessy</NavLink>
           </span>
         </div>
         <div
           className={`${styles.navLinks} ${menuOpen ? styles.showMenu : ""}`}
         >
-          <NavLink to="/profile">Profile</NavLink>
-          <NavLink to="/calender">Calender</NavLink>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/codingStats">Coding Stats</NavLink>
+          <NavLink to="/">home</NavLink>
+          <NavLink to="/codingStats">codingStats</NavLink>
+          <NavLink to="/calender">calender</NavLink>
+          <NavLink to="/profile">profile</NavLink>
         </div>
       </div>
 
@@ -53,7 +55,11 @@ const Navbar = () => {
           {menuOpen ? <FaTimes /> : <FaBars />}
         </div>
 
-        {user && <img src={profile} alt="User" className={styles.profileImg} />}
+        {user && (
+  <Link to="/profile">
+    <img src={profile} alt="User" className={styles.profileImg} />
+  </Link>
+)}
       </div>
     </nav>
   );

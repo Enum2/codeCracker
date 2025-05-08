@@ -9,9 +9,6 @@ import { getProfile } from "../DashBoard/getProfile";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { loginSuccess } from "../../store/authStore";
-
-
 const ProfileSection = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -35,6 +32,7 @@ const ProfileSection = () => {
   useEffect(() => {
     if (profile) {
       const profilinfo = {
+        accounts:profile.accounts|| [],
         firstName: profile.firstName || "",
         lastName: profile.lastName || "",
         email: profile.email || `${user}@gmail.com`,
@@ -124,6 +122,7 @@ const ProfileSection = () => {
 
       {showPlatformsModal && (
         <PlatformsModal
+        formData={formData}
           platformLinks={platformLinks}
           isEditing={isEditingPlatforms}
           onClose={togglePlatformsModal}

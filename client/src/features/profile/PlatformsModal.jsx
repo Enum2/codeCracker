@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Profile.module.css";
 
 const PlatformsModal = ({
+  formData,
   platformLinks,
   isEditing,
   onClose,
@@ -9,6 +10,31 @@ const PlatformsModal = ({
   onUpdate,
   onPlatformChange,
 }) => {
+  const [updatedLinks, setUpdatedLinks] = useState([]);
+
+  useEffect(() => {
+    if (platformLinks.length > 0 && updatedLinks.length === 0) {
+      const accountsMap = {};
+      formData?.accounts?.forEach((account) => {
+        accountsMap[account.accountName] = account.accountUsername;
+      });
+
+      const filledPlatforms = platformLinks.map((platform) => ({
+        ...platform,
+        accountUsername: accountsMap[platform.name] || "",
+      }));
+
+      setUpdatedLinks(filledPlatforms);
+    }
+  }, [formData, platformLinks, updatedLinks.length]);
+
+  const handleChange = (index, e) => {
+    const newLinks = [...updatedLinks];
+    newLinks[index].accountUsername = e.target.value;
+    setUpdatedLinks(newLinks);
+    onPlatformChange(index, e); // Optional sync to parent
+  };
+
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
@@ -18,7 +44,7 @@ const PlatformsModal = ({
             {isEditing ? (
               <button
                 className={`${styles.button} ${styles.saveButton}`}
-                onClick={onUpdate}
+                onClick={() => onUpdate(updatedLinks)}
               >
                 Update Platforms
               </button>
@@ -37,26 +63,21 @@ const PlatformsModal = ({
         </div>
         <div className={styles.modalContent}>
           <ul className={styles.platformsList}>
-            {platformLinks.map((platform, index) => (
+            {updatedLinks.map((platform, index) => (
               <li key={index} className={styles.platformItem}>
                 <h3 className={styles.platformName}>{platform.name}</h3>
                 {isEditing ? (
                   <input
-                    type="url"
+                    type="text"
                     className={styles.platformInput}
-                    value={platform.url}
-                    onChange={(e) => onPlatformChange(index, e)}
-                    placeholder={`Enter ${platform.name} profile URL`}
+                    value={platform.accountUsername}
+                    onChange={(e) => handleChange(index, e)}
+                    placeholder={`Enter ${platform.name} username`}
                   />
                 ) : (
-                  <a
-                    href={platform.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.platformLink}
-                  >
-                    {platform.url}
-                  </a>
+                  <span className={styles.platformLink}>
+                    {platform.accountUsername || "No username set"}
+                  </span>
                 )}
               </li>
             ))}
