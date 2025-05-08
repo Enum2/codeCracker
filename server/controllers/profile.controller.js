@@ -31,7 +31,6 @@ export const getProfileInfo = async (req, res) => {
 export const postNewUser = async (req, res) => {
   try {
     const { username, password, accounts, email } = req.body;
-    console.log(req.body);
     if (!username || !password || !email)
       return res
         .status(400)
@@ -50,7 +49,6 @@ export const postNewUser = async (req, res) => {
     });
 
     await newUser.save();
-    console.log("here1");
     const user = await User.findOne({ username });
 
     const token = jwt.sign({ username, id: newUser._id }, SECRET_KEY, {
@@ -85,7 +83,7 @@ export const loginUser = async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.json({ message: "Login successful", token });
+    res.json({ message: "Login successful", token ,user:username});
   } catch (error) {
     console.error("Error logging in:", error.message);
     res.status(500).json({ error: "Internal Server Error" });

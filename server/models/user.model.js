@@ -1,4 +1,3 @@
-import { count } from "console";
 import mongoose from "mongoose"; // Correct import
 
 // Account Schema
@@ -6,6 +5,10 @@ const accountSchema = new mongoose.Schema({
   accountName: {
     type: String,
     required: true,
+  },
+  accountUsername:{
+    type:String,
+    required:true,
   },
   isVerified: {
     type: Boolean,

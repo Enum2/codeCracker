@@ -3,8 +3,13 @@ import styles from "./Login.module.css";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const dispatch=useDispatch();
+  const navigate = useNavigate();
   const [isSignup, setIsSignup] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
@@ -25,11 +30,13 @@ const Login = () => {
       );
       return response.data;
     },
-    onSuccess: () => {
-      toast.success("sign up successfully");
+    onSuccess: (data) => {
+      toast.success(data.message);
+      dispatch(loginSuccess({ user: data.user, token: data.token }));
+      navigate("/")
     },
     onError: (error) => {
-      toast.error(error);
+      toast.error(error.error);
     },
   });
 
@@ -43,7 +50,9 @@ const Login = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      console.log("Login success:", data);
+      toast.success(data.message)
+      dispatch(loginSuccess({ user: data.user, token: data.token }));
+      navigate("/")
     },
     onError: (error) => {
       console.error("Login error:", error);

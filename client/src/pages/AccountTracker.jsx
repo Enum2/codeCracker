@@ -12,7 +12,7 @@ import { getContestInfo } from "../features/DashBoard/getContestInfo.js";
 
 function AccountTracker() {
   const [selectedPlatform, setSelectedPlatform] = useState("Codeforces");
-  const userName = "sujal1";
+  const userName = "sujal3";
 
   const {
     isLoading,
@@ -22,10 +22,11 @@ function AccountTracker() {
     queryKey: ["profile", userName],
     queryFn: () => getProfile(userName),
   });
+  console.log(profile)
 
   const account =
     profile?.accounts?.find(
-      (acc) => acc.accountName.toLowerCase() === selectedPlatform.toLowerCase()
+      (acc) => acc.accountName?.toLowerCase() === selectedPlatform?.toLowerCase()
     ) || null;
 
   const accountUsername = account
