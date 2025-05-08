@@ -1,16 +1,67 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Profile.module.css";
 import PlatformsModal from "./PlatformsModal";
 import ProfileHeader from "./ProfileHeader";
 import ProfileForm from "./ProfileForm";
-import { IntialProfileData, platforms } from "../../utils/PlatFromData";
+import { platforms } from "../../utils/PlatFromData";
+import { useSelector, useDispatch } from "react-redux";
+import { getProfile } from "../DashBoard/getProfile";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { loginSuccess } from "../../store/authStore";
+
 
 const ProfileSection = () => {
-  const [formData, setFormData] = useState(IntialProfileData);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+
+  const {
+    isLoading,
+    error,
+    data: profile,
+  } = useQuery({
+    queryKey: ["profile", user],
+    queryFn: () => getProfile(user),
+    enabled: !!user, // ensures query runs only if user exists
+  });
+
+  const [formData, setFormData] = useState(null);
   const [platformLinks, setPlatformLinks] = useState(platforms);
   const [isEditing, setIsEditing] = useState(false);
   const [showPlatformsModal, setShowPlatformsModal] = useState(false);
   const [isEditingPlatforms, setIsEditingPlatforms] = useState(false);
+
+  useEffect(() => {
+    if (profile) {
+      const profilinfo = {
+        firstName: profile.firstName || "",
+        lastName: profile.lastName || "",
+        email: profile.email || `${user}@gmail.com`,
+        country: profile.country || "",
+        college: profile.college || "",
+        degree: profile.degree || "",
+        branch: profile.branch || "",
+        graduationYear: profile.yearofGraduation ?? 2027,
+        userName: user,
+      };
+      setFormData(profilinfo);
+    }
+  }, [profile, user]);
+
+  const updateProfileMutation = useMutation({
+    mutationFn: async (data) => {
+      const res = await axios.post("http://localhost:5000/api/v1/profile/update", data);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      toast.success("Profile updated!");
+      setIsEditing(false);
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.error || "Update failed");
+    },
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,13 +80,26 @@ const ProfileSection = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Profile updated:", formData);
-    setIsEditing(false);
+    if (!formData) return;
+
+    const cleanedProfile = {
+      userName: formData.userName || "",
+      email: formData.email || "",
+      firstName: formData.firstName || "",
+      lastName: formData.lastName || "",
+      country: formData.country || "",
+      college: formData.college || "",
+      degree: formData.degree || "",
+      branch: formData.branch || "",
+      bio: "",
+      graduationYear: formData.graduationYear ?? 2027,
+      yearofGraduation: null,
+    };
+
+    updateProfileMutation.mutate(cleanedProfile);
   };
 
-  const handleEditToggle = () => {
-    setIsEditing(!isEditing);
-  };
+  const handleEditToggle = () => setIsEditing(!isEditing);
 
   const togglePlatformsModal = () => {
     setShowPlatformsModal(!showPlatformsModal);
@@ -46,6 +110,9 @@ const ProfileSection = () => {
     console.log("Platforms updated:", platformLinks);
     setIsEditingPlatforms(false);
   };
+
+  if (isLoading || !formData) return <div className={styles.container}>Loading...</div>;
+  if (error) return <div className={styles.container}>Error loading profile.</div>;
 
   return (
     <div className={styles.container}>

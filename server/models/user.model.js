@@ -48,9 +48,25 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: "",
   },
+  firstName:{
+    type:String,
+    default:"",
+  },
+  lastName:{
+    type:String,
+    default:"",
+  },
+  degree:{
+    type:String,
+    default:"",
+  },
   bio: {
     type: String,
     default: "",
+  },
+  graduationYear:{
+    type:Number,
+    default:2027,
   },
   accounts: {
     type: [accountSchema],

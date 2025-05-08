@@ -89,3 +89,40 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const updateuser = async (req, res) => {
+  try {
+    const { userName, ...updateData } = req.body;
+  
+    if (!userName) {
+      return res
+        .status(400)
+        .json({ error: "Username is required to identify the user" });
+    }
+
+    // Do not allow updating the username
+    if (updateData.userName) {
+      delete updateData.userName;
+    }
+
+    const user = await User.findOne({username: userName });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Update allowed fields only
+    Object.assign(user, updateData);
+
+    await user.save();
+
+    return res.status(200).json({
+      message: "User updated successfully",
+      user,
+    });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return res.status(500).json({ error: "Server error while updating user" });
+  }
+};
+

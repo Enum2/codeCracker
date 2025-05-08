@@ -9,7 +9,7 @@ const PersonalInfoSection = ({ formData, isEditing, handleChange }) => {
         <div className={styles.formRow}>
           <div className={styles.inputContainer}>
             <label className={styles.label}>Codessy ID</label>
-            <div className={styles.staticValue}>enum</div>
+            <div className={styles.staticValue}>{formData.userName}</div>
           </div>
         </div>
 
