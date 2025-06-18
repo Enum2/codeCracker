@@ -12,7 +12,7 @@ export const getGFGProfile = async (req, res) => {
     const data = await response.json();
     return res.status(200).json(data);
   } catch (error) {
-    console.error(`❌ Error fetching GFG profile: ${error.message}`);
+    console.error(`Error fetching GFG profile: ${error.message}`);
     return res.status(500).json({ error: "Internal server error" });
   }
 };

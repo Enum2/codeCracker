@@ -65,7 +65,6 @@ function Account({ accountData, selectedPlatform }) {
       {!showTagsGraph && accountData?.solvedByTagsPie && (
         <PieChart data={accountData.solvedByTagsPie} />
       )}
-      {/* Enhanced PieOpt rendering with debugging */}
       {accountData?.piechartData && <PieOpt data={accountData.piechartData} />}
     </>
   );

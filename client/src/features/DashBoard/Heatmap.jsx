@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { useEffect, useRef } from "react";
+import  { useEffect, useRef } from "react";
 import styles from "./Heatmap.module.css";
 import {
   getCalendarGrid,

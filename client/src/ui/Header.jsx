@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Header.module.css";
 import { FaBars, FaPlus } from "react-icons/fa6";
 
-function Header({ setSelectedPlatform, profile }) {
+function Header({ setSelectedPlatform, profile, onAddPlatformClick }) {
   function handlePlatformChange(event) {
     setSelectedPlatform(event.target.value);
   }
@@ -11,10 +11,7 @@ function Header({ setSelectedPlatform, profile }) {
     <header className={styles.header}>
       <div className={styles.leftSection}>
         <FaBars className={styles.icon} />
-        <select
-          className={styles.platformSelect}
-          onChange={handlePlatformChange}
-        >
+        <select className={styles.platformSelect} onChange={handlePlatformChange}>
           {profile?.accounts.map((account) => (
             <option key={account._id} value={account.accountName}>
               {account.accountName}
@@ -23,7 +20,7 @@ function Header({ setSelectedPlatform, profile }) {
         </select>
       </div>
       <div className={styles.rightSection}>
-        <button className={styles.addPlatform}>
+        <button className={styles.addPlatform} onClick={onAddPlatformClick}>
           <FaPlus className={styles.plusIcon} /> Add Platform
         </button>
       </div>

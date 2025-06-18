@@ -49,7 +49,7 @@ const CustomTooltip = ({ active, payload }) => {
           <strong>{data.contestName}</strong>
         </p>
         <p>
-          Rating: <strong>{data.rating.toFixed(2)}</strong>
+          Rating: <strong>{Number.isFinite(data.rating) ? Number(data.rating).toFixed(2) : "N/A"}</strong>
         </p>
       </div>
     );
@@ -65,7 +65,9 @@ const RatingChart = ({ lineChartData, userContestRanking }) => {
     totalParticipants,
     topPercentage,
   } = userContestRanking;
-  const maxRating = Math.max(lineChartData.map((c) => c.rating));
+
+  const maxRating = Math.max(...lineChartData.map((c) => c.rating));
+
   return (
     <div className={styles.line}>
       <div
@@ -81,14 +83,16 @@ const RatingChart = ({ lineChartData, userContestRanking }) => {
           🏆 <strong>Total Contests:</strong> {attendedContestsCount}
         </div>
         <div>
-          📈 <strong>Current Rating:</strong> {rating.toFixed(2)}
+          📈 <strong>Current Rating:</strong>{" "}
+          {Number.isFinite(rating) ? Number(rating).toFixed(2) : "N/A"}
         </div>
         <div>
-          🔥 <strong>Max Rating:</strong> {maxRating.toFixed(2)}
+          🔥 <strong>Max Rating:</strong>{" "}
+          {Number.isFinite(maxRating) ? maxRating.toFixed(2) : "N/A"}
         </div>
         <div>
-          🌎 <strong>Global Rank:</strong> {globalRanking.toLocaleString()} /{" "}
-          {totalParticipants?.toLocaleString()}
+          🌎 <strong>Global Rank:</strong> {Number(globalRanking).toLocaleString()} /{" "}
+          {Number(totalParticipants).toLocaleString()}
         </div>
         <div>
           🎯 <strong>Top Percentage:</strong> {topPercentage}%

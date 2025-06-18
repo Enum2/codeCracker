@@ -11,7 +11,6 @@ const PlatformsModal = ({
   onPlatformChange,
 }) => {
   const [updatedLinks, setUpdatedLinks] = useState([]);
-
   useEffect(() => {
     if (platformLinks.length > 0 && updatedLinks.length === 0) {
       const accountsMap = {};
@@ -21,7 +20,7 @@ const PlatformsModal = ({
 
       const filledPlatforms = platformLinks.map((platform) => ({
         ...platform,
-        accountUsername: accountsMap[platform.name] || "",
+        accountUsername: accountsMap[platform.accountName] || "",
       }));
 
       setUpdatedLinks(filledPlatforms);
@@ -65,14 +64,14 @@ const PlatformsModal = ({
           <ul className={styles.platformsList}>
             {updatedLinks.map((platform, index) => (
               <li key={index} className={styles.platformItem}>
-                <h3 className={styles.platformName}>{platform.name}</h3>
+                <h3 className={styles.platformName}>{platform.accountName}</h3>
                 {isEditing ? (
                   <input
                     type="text"
                     className={styles.platformInput}
                     value={platform.accountUsername}
-                    onChange={(e) => handleChange(index, e)}
-                    placeholder={`Enter ${platform.name} username`}
+                    onChange={(e) => handleChange(index, e,platform)}
+                    placeholder={`Enter ${platform.accountName} username`}
                   />
                 ) : (
                   <span className={styles.platformLink}>

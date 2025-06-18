@@ -1,38 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Profile.module.css";
-import PlatformsModal from "./PlatformsModal";
 import ProfileHeader from "./ProfileHeader";
 import ProfileForm from "./ProfileForm";
+import PlatformManager from "./PlatformManager";
 import { platforms } from "../../utils/PlatFromData";
-import { useSelector, useDispatch } from "react-redux";
-import { getProfile } from "../DashBoard/getProfile";
+import { useSelector } from "react-redux";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { getProfile } from "../DashBoard/getProfile";
 import axios from "axios";
 import toast from "react-hot-toast";
+
 const ProfileSection = () => {
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-
-  const {
-    isLoading,
-    error,
-    data: profile,
-  } = useQuery({
-    queryKey: ["profile", user],
-    queryFn: () => getProfile(user),
-    enabled: !!user, // ensures query runs only if user exists
-  });
-
   const [formData, setFormData] = useState(null);
   const [platformLinks, setPlatformLinks] = useState(platforms);
   const [isEditing, setIsEditing] = useState(false);
   const [showPlatformsModal, setShowPlatformsModal] = useState(false);
   const [isEditingPlatforms, setIsEditingPlatforms] = useState(false);
 
+  const { isLoading, error, data: profile } = useQuery({
+    queryKey: ["profile", user],
+    queryFn: () => getProfile(user),
+    enabled: !!user,
+  });
+
   useEffect(() => {
     if (profile) {
-      const profilinfo = {
-        accounts:profile.accounts|| [],
+      setFormData({
+        accounts: profile.accounts || [],
         firstName: profile.firstName || "",
         lastName: profile.lastName || "",
         email: profile.email || `${user}@gmail.com`,
@@ -42,8 +37,7 @@ const ProfileSection = () => {
         branch: profile.branch || "",
         graduationYear: profile.yearofGraduation ?? 2027,
         userName: user,
-      };
-      setFormData(profilinfo);
+      });
     }
   }, [profile, user]);
 
@@ -52,7 +46,7 @@ const ProfileSection = () => {
       const res = await axios.post("http://localhost:5000/api/v1/profile/update", data);
       return res.data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Profile updated!");
       setIsEditing(false);
     },
@@ -63,17 +57,7 @@ const ProfileSection = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handlePlatformChange = (index, e) => {
-    const { value } = e.target;
-    const updatedLinks = [...platformLinks];
-    updatedLinks[index].url = value;
-    setPlatformLinks(updatedLinks);
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -81,31 +65,22 @@ const ProfileSection = () => {
     if (!formData) return;
 
     const cleanedProfile = {
-      userName: formData.userName || "",
-      email: formData.email || "",
-      firstName: formData.firstName || "",
-      lastName: formData.lastName || "",
-      country: formData.country || "",
-      college: formData.college || "",
-      degree: formData.degree || "",
-      branch: formData.branch || "",
-      bio: "",
-      graduationYear: formData.graduationYear ?? 2027,
-      yearofGraduation: null,
+      userName: formData.userName,
+      email: formData.email,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      country: formData.country,
+      college: formData.college,
+      degree: formData.degree,
+      branch: formData.branch,
+      graduationYear: formData.graduationYear,
     };
 
     updateProfileMutation.mutate(cleanedProfile);
   };
 
-  const handleEditToggle = () => setIsEditing(!isEditing);
-
   const togglePlatformsModal = () => {
     setShowPlatformsModal(!showPlatformsModal);
-    setIsEditingPlatforms(false);
-  };
-
-  const handleUpdatePlatforms = () => {
-    console.log("Platforms updated:", platformLinks);
     setIsEditingPlatforms(false);
   };
 
@@ -116,21 +91,9 @@ const ProfileSection = () => {
     <div className={styles.container}>
       <ProfileHeader
         onTogglePlatforms={togglePlatformsModal}
-        onEditToggle={handleEditToggle}
+        onEditToggle={() => setIsEditing((prev) => !prev)}
         isEditing={isEditing}
       />
-
-      {showPlatformsModal && (
-        <PlatformsModal
-        formData={formData}
-          platformLinks={platformLinks}
-          isEditing={isEditingPlatforms}
-          onClose={togglePlatformsModal}
-          onEditToggle={() => setIsEditingPlatforms(!isEditingPlatforms)}
-          onUpdate={handleUpdatePlatforms}
-          onPlatformChange={handlePlatformChange}
-        />
-      )}
 
       <ProfileForm
         formData={formData}
@@ -138,8 +101,21 @@ const ProfileSection = () => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       />
+
+      <PlatformManager
+        show={showPlatformsModal}
+        formData={formData}
+        platformLinks={platformLinks}
+        setPlatformLinks={setPlatformLinks}
+        isEditing={isEditingPlatforms}
+        toggleModal={togglePlatformsModal}
+        toggleEdit={() => setIsEditingPlatforms((prev) => !prev)}
+        updateMutation={updateProfileMutation}
+        user={user}
+      />
     </div>
   );
 };
 
 export default ProfileSection;
+  

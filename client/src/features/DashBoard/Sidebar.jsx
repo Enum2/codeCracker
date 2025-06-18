@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Sidebar.module.css";
 import { MdVerified } from "react-icons/md";
 import { FaExclamationTriangle } from "react-icons/fa";
@@ -15,9 +14,9 @@ const Sidebar = ({ profile }) => {
     <aside className={styles.sidebar}>
       <div className={styles.profileSection}>
         <div className={styles.profilePic}></div>
-        <div className={styles.textBox}></div>
+        <div className={styles.textBox}>{profile?.username}</div>
         <div className={styles.accountCount}>
-          {profile?.accounts.length} Accounts
+          <b>{profile?.accounts.length}</b> Accounts
         </div>
       </div>
 

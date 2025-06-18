@@ -19,9 +19,7 @@
 }
 
 .textBox {
-  width: 80%;
-  height: 30px;
-  background-color: #e0e0e0;
+  text-align: center;
   margin-bottom: 10px;
 }
 
@@ -55,6 +53,12 @@
 .img {
   height: 2.5rem;
   width: 2.5rem;
+}
+.statsHeader{
+  text-align: center  ;
+}
+.accountCount{
+  text-align: center;
 }
 
 @media screen and (max-width: 1024px) {

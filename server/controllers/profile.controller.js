@@ -93,7 +93,7 @@ export const loginUser = async (req, res) => {
 export const updateuser = async (req, res) => {
   try {
     const { userName, ...updateData } = req.body;
-  
+    console.log(updateData)
     if (!userName) {
       return res
         .status(400)

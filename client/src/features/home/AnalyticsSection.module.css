@@ -1,0 +1,71 @@
+.analyticsSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100vw;
+    padding: 4rem 5%;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    flex-wrap: wrap;
+  }
+  
+  .imageWrapper {
+    flex: 1;
+    min-width: 300px;
+    max-width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 1rem;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .textContent {
+    flex: 1;
+    max-width: 600px;
+    padding: 2rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1rem;
+  }
+  
+  .description {
+    font-size: 1rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  
+  .buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .tryNow {
+    background-color: #d19a9a;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .learnMore {
+    background: none;
+    border: none;
+    color: #d19a9a;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  

@@ -1,0 +1,92 @@
+.featuresSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    width: 100%;
+    text-align: center;
+    background-color: #ffffff;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+  
+  .heading {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1e1e1e;
+    margin-bottom: 0.5rem;
+  }
+  
+  .subheading {
+    font-size: 1.5rem;
+    color: #7d7d7d;
+    margin-bottom: 3rem;
+    max-width: 700px;
+  }
+  
+  .featureBlock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+    width: 100%;
+    max-width: 1200px;
+    flex-wrap: wrap;
+  }
+  
+  .textContent {
+    max-width: 500px;
+    text-align: left;
+  }
+  
+  .featureTitle {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1e1e1e;
+  }
+  
+  .featureTitle span {
+    color: #b3404a;
+  }
+  
+  .featureDescription {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: #5e5e5e;
+  }
+  
+  .buttons {
+    margin-top: 1.5rem;
+  }
+  
+  .tryNow {
+    background-color: #b3404a;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    margin-right: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .learnMore {
+    background-color: transparent;
+    color: #b3404a;
+    border: 1px solid #b3404a;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .imageWrapper {
+    max-width: 500px;
+    flex: 1;
+  }
+  
+  .image {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+  

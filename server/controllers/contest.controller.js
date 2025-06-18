@@ -23,7 +23,6 @@ export const getAllContestsInfo = async (req, res) => {
     });
 
     const response = await fetch(`${BASE_URL}?${params}`);
-
     if (!response.ok) {
       throw new Error(`CLIST API responded with status ${response.status}`);
     }
