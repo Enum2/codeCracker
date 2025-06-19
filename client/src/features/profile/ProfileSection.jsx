@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import styles from "./Profile.module.css";
 import ProfileHeader from "./ProfileHeader";
 import ProfileForm from "./ProfileForm";
-import PlatformManager from "./PlatformManager";
+import PlatformManager from "./PlatformManager.jsx";
 import { platforms } from "../../utils/PlatFromData";
 import { useSelector } from "react-redux";
 import { useMutation, useQuery } from "@tanstack/react-query";

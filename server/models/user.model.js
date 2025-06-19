@@ -1,4 +1,4 @@
-import mongoose from "mongoose"; // Correct import
+import mongoose from "mongoose"; 
 
 // Account Schema
 const accountSchema = new mongoose.Schema({
@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+  },
+  profilepic:{
+    type:String,
+    default:"https://xlrtkcnoxriwtzrjowzk.supabase.co/storage/v1/object/public/profilepic/profilepic/avatar.png"
   },
   country: {
     type: String,

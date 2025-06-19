@@ -2,7 +2,6 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-
 dotenv.config();
 
 const SECRET_KEY = process.env.SECRET_KEY || "ITISNICEKEY";
@@ -93,7 +92,6 @@ export const loginUser = async (req, res) => {
 export const updateuser = async (req, res) => {
   try {
     const { userName, ...updateData } = req.body;
-    console.log(updateData)
     if (!userName) {
       return res
         .status(400)

@@ -9,10 +9,17 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
 }
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
 .profilePic {
   width: 100px;
   height: 100px;
+  cursor: pointer;
   background-color: #e0e0e0;
   border-radius: 50%;
   margin-bottom: 20px;
@@ -26,7 +33,7 @@
 .account {
   padding-top: 1.5rem;
   width: 20rem;
-  align-items: center;
+ align-self: center;
 }
 
 .accountTitle {
@@ -39,15 +46,10 @@
   align-items: center;
 }
 
-.accountTitle:hover {
-  color: #fdb048;
-  background-color: lightgray;
-  cursor: pointer;
-}
 
 .accountlogo {
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .img {
@@ -55,7 +57,7 @@
   width: 2.5rem;
 }
 .statsHeader{
-  text-align: center  ;
+  text-align: center;
 }
 .accountCount{
   text-align: center;
@@ -66,3 +68,4 @@
     width: 90vw;
   }
 }
+
