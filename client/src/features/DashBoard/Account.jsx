@@ -19,12 +19,6 @@ function Account({ accountData, selectedPlatform }) {
 
   const [showTagsGraph, setShowTagsGraph] = useState(true);
 
-  // Debugging
-  useEffect(() => {
-    console.log("Account data:", accountData);
-    console.log("PieOpt data:", accountData?.piechartData);
-  }, [accountData]);
-
   const handleToggle = () => {
     setShowTagsGraph((prev) => !prev);
   };

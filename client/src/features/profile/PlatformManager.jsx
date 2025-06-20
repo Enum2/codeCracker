@@ -25,6 +25,7 @@ const PlatformManager = ({
   };
 
   const handleUpdatePlatforms = () => {
+  //  console.log(platformLinks) 
     const updatedAccounts = platformLinks
       .filter((acc) => acc.accountUsername?.trim()) 
       .map((acc) => ({

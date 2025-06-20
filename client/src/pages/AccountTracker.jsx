@@ -12,6 +12,7 @@ import { getAccountInfo } from "../features/DashBoard/getAccountInfo";
 import { getContestInfo } from "../features/DashBoard/getContestInfo";
 import PlatformManager from "../features/Profile/PlatformManager";
 import { platforms } from "../utils/PlatFromData";
+import NoPlatformSelected from "./../ui/NoPlatformSleceted.jsx"
 import axios from "axios";
 
 function AccountTracker() {
@@ -20,7 +21,6 @@ function AccountTracker() {
   const [isEditing, setIsEditing] = useState(true);
   const [platformLinks, setPlatformLinks] = useState(platforms);
   const userName = useSelector((state) => state.auth.user);
-
   const { isLoading, error, data: profile } = useQuery({
     queryKey: ["profile", userName],
     queryFn: () => getProfile(userName),
@@ -76,17 +76,22 @@ function AccountTracker() {
       />
 
       <div className={styles.content}>
-        {isGetting ? (
-          <Loader />
+  {isGetting ? (
+    <Loader />
+  ) : (
+    <>
+      <Sidebar profile={profile} />
+      <main className={styles.main}>
+        {selectedPlatform ? (
+          <Account accountData={accountData} selectedPlatform={selectedPlatform} />
         ) : (
-          <>
-            <Sidebar profile={profile} />
-            <main className={styles.main}>
-              <Account accountData={accountData} selectedPlatform={selectedPlatform} />
-            </main>
-          </>
+          <NoPlatformSelected accounts={profile?.accounts} />
         )}
-      </div>
+      </main>
+    </>
+  )}
+</div>
+
 
       <PlatformManager
         show={showModal}

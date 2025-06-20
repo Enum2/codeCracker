@@ -23,3 +23,15 @@
   max-width: 500px;
   margin: 0 auto;
 }
+@media screen and (max-width: 1024px) {
+  .container {
+    width: 90vw;
+    height:50vh;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    height:35vh;
+  }
+}

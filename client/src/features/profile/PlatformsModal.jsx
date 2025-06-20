@@ -17,21 +17,22 @@ const PlatformsModal = ({
       formData?.accounts?.forEach((account) => {
         accountsMap[account.accountName] = account.accountUsername;
       });
-
+      console.log(platformLinks)
       const filledPlatforms = platformLinks.map((platform) => ({
         ...platform,
         accountUsername: accountsMap[platform.accountName] || "",
       }));
-
       setUpdatedLinks(filledPlatforms);
     }
   }, [formData, platformLinks, updatedLinks.length]);
 
   const handleChange = (index, e) => {
+    // console.log(updatedLinks)
     const newLinks = [...updatedLinks];
     newLinks[index].accountUsername = e.target.value;
-    setUpdatedLinks(newLinks);
-    onPlatformChange(index, e); // Optional sync to parent
+    console.log(newLinks)
+    // setUpdatedLinks(newLinks);
+    onPlatformChange(index, e); 
   };
 
   return (

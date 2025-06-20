@@ -1,4 +1,4 @@
-import React from "react";
+
 import { ColorRankHandler } from "../../utils/Ratingmapping.js";
 import {
   BarChart,

@@ -9,7 +9,6 @@
   grid-column: span 2;
   padding: 20px;
   gap: 20px;
-  /* overflow: scroll; */
 }
 .legendContainer {
   display: flex;
@@ -17,7 +16,7 @@
   gap: 10px;
   width: 200px;
   max-height: 350px;
-  overflow-y: auto; /* Enable vertical scrolling if needed */
+  overflow-y: auto; 
 }
 .pieChart {
   flex: 1;
@@ -28,7 +27,6 @@
   align-items: center;
 }
 
-/* Responsive: Stack chart and legend on smaller screens */
 @media screen and (max-width: 1024px) {
   .pie {
     flex-direction: column;
