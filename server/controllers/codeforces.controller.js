@@ -47,7 +47,8 @@ export const getAllData = async (req, res) => {
       date: change.ratingChange,
     }));
     const solvedByTagsPie = transformDataSolvedPie(allData.solvedByTags);
-    // console.log(solvedByTagsPie);
+    const totalSolved = getAllSolved(allData.ratingWiseSolved);
+
     const finalData = {
       submissionCalendar: convertHeatmapToSubmissionCalendar(
         allData.heatmapData
@@ -56,6 +57,7 @@ export const getAllData = async (req, res) => {
       solvedByTagsPie,
       ratingWiseSolved: allData.ratingWiseSolved,
       piechartData: formatPieChartDataCodeforces(allData.ratingWiseSolved),
+      totalQuestionSolved:totalSolved,
       userContestRanking: {
         attendedContestsCount: allData?.ratingChanges?.length,
         rating: allData.userInfo[0].rating,

@@ -5,54 +5,28 @@ export const getAccountInfo = async (platform, username) => {
   const storageKey = `${platform}_${username}_accountInfo`;
 
   try {
-    console.log(allDataUrl);
+    
     const res = await fetch(allDataUrl);
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch data from server");
-    }
+    if (!res.ok) throw new Error("Failed to fetch allData");
 
     let data = await res.json();
 
     if (platform === "leetcode") {
-      try {
-        const res2 = await fetch(contestDataUrl);
+      const res2 = await fetch(contestDataUrl);
+      if (!res2.ok) throw new Error("Failed to fetch contest data");
 
-        if (!res2.ok) {
-          throw new Error("Failed to fetch contest data from server");
-        }
-
-        const { userContestRanking, lineChartData } = await res2.json();
-        data = { ...data, userContestRanking, lineChartData };
-      } catch (contestError) {
-        if (
-          contestError.message.includes("429") ||
-          contestError.message.includes("Too Many Requests")
-        ) {
-          console.warn(
-            "Too many requests, loading contest data from local storage."
-          );
-          const cachedData = localStorage.getItem(storageKey);
-          if (cachedData) return JSON.parse(cachedData);
-        } else {
-          throw contestError;
-        }
-      }
+      const { userContestRanking, lineChartData } = await res2.json();
+      data = { ...data, userContestRanking, lineChartData };
     }
+
     localStorage.setItem(storageKey, JSON.stringify(data));
     return data;
-  } catch (err) {
-    console.error("Error fetching account info:", err.message);
-    if (
-      err.message.includes("429") ||
-      err.message.includes("Too Many Requests")
-    ) {
-      console.warn("Too many requests, loading data from local storage.");
-      const cachedData = localStorage.getItem(storageKey);
-      console.log(cachedData);
-      if (cachedData) return JSON.parse(cachedData);
-    }
+  } catch (error) {
+    console.warn("Fetch failed, trying localStorage:", error.message);
 
-    return null;
+    const cached = localStorage.getItem(storageKey);
+    if (cached) return JSON.parse(cached);
+
+    throw error; 
   }
 };

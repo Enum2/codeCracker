@@ -5,8 +5,7 @@ const leetcode = new LeetCode();
 export const getAllData = async (req, res) => {
   try {
     const { id } = req.params;
-    if (!id) return res.status(400).json({ error: "User ID is required" });
-
+    if (!id) return res.status(400).json({ error: "User ID is required" })
     const user = await leetcode.user(id);
     if (!user) return res.status(404).json({ error: "User not found" });
     const convertedSubmissionCalendar = user.matchedUser?.submissionCalendar
@@ -22,11 +21,10 @@ export const getAllData = async (req, res) => {
         )
       : [];
 
-    // console.log(convertedSubmissionCalendar.length);
     const covertedPieData = formatPieChartDataLeetCode(
       user.matchedUser?.submitStats?.acSubmissionNum
     );
-
+  
     const transformedData = {
       username: user.matchedUser?.username || "",
       submissionCalendar: convertedSubmissionCalendar,
@@ -35,6 +33,7 @@ export const getAllData = async (req, res) => {
       badges: user.matchedUser?.badges || [],
       activeBadge: user.matchedUser?.activeBadge || null,
       activeDays: convertedSubmissionCalendar.length,
+      totalQuestionSolved:user.matchedUser?.submitStats?.acSubmissionNum[0].count
     };
 
     res.status(200).json(transformedData);

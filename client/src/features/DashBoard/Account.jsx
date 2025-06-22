@@ -13,10 +13,6 @@ import PieOpt from "./PieOpt.jsx";
 function Account({ accountData, selectedPlatform }) {
   const { startDate, endDate } = getDateForHeatmap();
   const sampleHeatmapData = accountData?.submissionCalendar;
-  const totalSolved = accountData
-    ? accountData?.acSubmissionNum?.find((level) => level.difficulty === "All")
-    : { count: 0 };
-
   const [showTagsGraph, setShowTagsGraph] = useState(true);
 
   const handleToggle = () => {
@@ -25,7 +21,8 @@ function Account({ accountData, selectedPlatform }) {
 
   return (
     <>
-      <Box title="Total Questions" count={totalSolved?.count} />
+  
+      <Box title="Total Questions" count={accountData?.totalQuestionSolved} />
       <Box title="Total Active Days" count={sampleHeatmapData?.length} />
       {sampleHeatmapData && (
         <Heatmap

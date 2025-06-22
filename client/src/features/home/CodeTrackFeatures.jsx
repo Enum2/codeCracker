@@ -40,9 +40,6 @@ const CodeTrackFeatures = () => {
             <button className={styles.tryNow} onClick={handleTryNow}>
               {user ? "View Coding Stats" : "Login"}
             </button>
-            <button className={styles.learnMore} onClick={handleLearnMore}>
-              Learn more
-            </button>
           </div>
         </div>
         <div className={styles.imageWrapper}>
